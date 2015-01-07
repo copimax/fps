@@ -1,0 +1,154 @@
+	public Main() throws LWJGLException
+	{
+		Display.setDisplayMode(new DisplayMode(800, 600));
+		Display.setTitle("teste");
+		Display.create();
+		
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		gluPerspective(50, 800f / 600f, 0.1f, 100f);
+		glMatrixMode(GL_MODELVIEW);
+		
+		glLoadIdentity();
+        glEnable(GL_TEXTURE_2D);                                   
+        glShadeModel(GL_SMOOTH);
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        glClearDepth(1.0f);
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LEQUAL);
+        glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+		
+		Vector3f pitch = new Vector3f(0, 0, 0);
+		Vector3f camera = new Vector3f(0,0,0);
+		
+		Mouse.setGrabbed(true);
+		
+		while(!Display.isCloseRequested()){
+			glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+			
+			GL11.glTranslatef(0.0f,0.0f,-5.0f);                              
+            
+            GL11.glBegin(GL11.GL_QUADS);
+                    GL11.glTexCoord2f(0.0f, 0.0f);
+                    GL11.glVertex3f(-1.0f, -1.0f,  1.0f);   
+                    GL11.glTexCoord2f(1.0f, 0.0f);
+                    GL11.glVertex3f( 1.0f, -1.0f,  1.0f);  
+                    GL11.glTexCoord2f(1.0f, 1.0f);
+                    GL11.glVertex3f( 1.0f,  1.0f,  1.0f);   
+                    GL11.glTexCoord2f(0.0f, 1.0f);
+                    GL11.glVertex3f(-1.0f,  1.0f,  1.0f);  
+     
+                    
+                    GL11.glTexCoord2f(1.0f, 0.0f);
+                    GL11.glVertex3f(-1.0f, -1.0f, -1.0f);   
+                    GL11.glTexCoord2f(1.0f, 1.0f);
+                    GL11.glVertex3f(-1.0f,  1.0f, -1.0f);   
+                    GL11.glTexCoord2f(0.0f, 1.0f);
+                    GL11.glVertex3f( 1.0f,  1.0f, -1.0f);   
+                    GL11.glTexCoord2f(0.0f, 0.0f);
+                    GL11.glVertex3f( 1.0f, -1.0f, -1.0f);   
+     
+                    
+                    GL11.glTexCoord2f(0.0f, 1.0f);
+                    GL11.glVertex3f(-1.0f,  1.0f, -1.0f);   
+                    GL11.glTexCoord2f(0.0f, 0.0f);
+                    GL11.glVertex3f(-1.0f,  1.0f,  1.0f);   
+                    GL11.glTexCoord2f(1.0f, 0.0f);
+                    GL11.glVertex3f( 1.0f,  1.0f,  1.0f);   
+                    GL11.glTexCoord2f(1.0f, 1.0f);
+                    GL11.glVertex3f( 1.0f,  1.0f, -1.0f);   
+     
+                    
+                    GL11.glTexCoord2f(1.0f, 1.0f);
+                    GL11.glVertex3f(-1.0f, -1.0f, -1.0f);   
+                    GL11.glTexCoord2f(0.0f, 1.0f);
+                    GL11.glVertex3f( 1.0f, -1.0f, -1.0f);   
+                    GL11.glTexCoord2f(0.0f, 0.0f);
+                    GL11.glVertex3f( 1.0f, -1.0f,  1.0f);   
+                    GL11.glTexCoord2f(1.0f, 0.0f);
+                    GL11.glVertex3f(-1.0f, -1.0f,  1.0f);  
+     
+                   
+                    GL11.glTexCoord2f(1.0f, 0.0f);
+                    GL11.glVertex3f( 1.0f, -1.0f, -1.0f);   
+                    GL11.glTexCoord2f(1.0f, 1.0f);
+                    GL11.glVertex3f( 1.0f,  1.0f, -1.0f);   
+                    GL11.glTexCoord2f(0.0f, 1.0f);
+                    GL11.glVertex3f( 1.0f,  1.0f,  1.0f);   
+                    GL11.glTexCoord2f(0.0f, 0.0f);
+                    GL11.glVertex3f( 1.0f, -1.0f,  1.0f);   
+     
+                   
+                    GL11.glTexCoord2f(0.0f, 0.0f);
+                    GL11.glVertex3f(-1.0f, -1.0f, -1.0f);   
+                    GL11.glTexCoord2f(1.0f, 0.0f);
+                    GL11.glVertex3f(-1.0f, -1.0f,  1.0f);   
+                    GL11.glTexCoord2f(1.0f, 1.0f);
+                    GL11.glVertex3f(-1.0f,  1.0f,  1.0f);   
+                    GL11.glTexCoord2f(0.0f, 1.0f);
+                    GL11.glVertex3f(-1.0f,  1.0f, -1.0f);  
+           
+                    GL11.glEnd();
+                    
+                    Display.update();
+			
+			if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
+				Display.destroy();
+				System.exit(0);
+			}
+			
+			pitch.x += -Mouse.getDY() * 0.3f; 
+			pitch.y += Mouse.getDX() * 0.3f;
+			
+			
+			if(Keyboard.isKeyDown(Keyboard.KEY_W))
+			{
+				camera.x -=  0.004f * (float)Math.sin(Math.toRadians(pitch.y));
+				camera.z +=  0.004f * (float)Math.cos(Math.toRadians(pitch.y));
+				
+			
+				
+			}
+			if(Keyboard.isKeyDown(Keyboard.KEY_S))
+			{
+				 camera.x +=  0.004f * (float)Math.sin(Math.toRadians(pitch.y));
+				 camera.z -=  0.004f * (float)Math.cos(Math.toRadians(pitch.y));
+
+				
+			}
+			if(Keyboard.isKeyDown(Keyboard.KEY_A))
+			{
+				camera.x -= 0.004f * (float)Math.sin(Math.toRadians(pitch.y - 90));
+				camera.z += 0.004f * (float)Math.cos(Math.toRadians(pitch.y - 90));
+				
+			}
+			if(Keyboard.isKeyDown(Keyboard.KEY_D))
+			{
+				camera.x -= 0.004f * (float)Math.sin(Math.toRadians(pitch.y + 90));
+				camera.z += 0.004f * (float)Math.cos(Math.toRadians(pitch.y + 90));
+				
+			}
+			
+			if(Keyboard.isKeyDown(Keyboard.KEY_X))
+			{
+				pitch.x += 0.1;
+			}
+			if(Keyboard.isKeyDown(Keyboard.KEY_Y))
+			{
+				pitch.y += 0.1;
+			}
+			if(Keyboard.isKeyDown(Keyboard.KEY_Z))
+			{
+				pitch.z += 0.1;
+			}
+            
+			glLoadIdentity();		
+			
+			glRotatef(pitch.x,1,0,0);			
+			glRotatef(pitch.y,0,1,0);
+			glRotatef(pitch.z,0,0,1);
+			
+            glTranslatef(camera.x,camera.y,camera.z);
+			
+			
+		}
